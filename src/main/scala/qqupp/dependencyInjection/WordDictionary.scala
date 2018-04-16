@@ -1,4 +1,4 @@
-package qqupp.dependency_injection
+package qqupp.dependencyInjection
 
 trait WordDictionary {
   def lang: Lang
@@ -16,5 +16,5 @@ case class DefaultWordDictionary(lang: Lang,
   def definition(word: Word): Option[Definition] = dict.get(word)
 
   def intoSyllables(word: Word): List[Syllable] =
-    word.foldRight(List[Syllable]())((c,l) => (c.toString)::l)
+    word.foldRight(List[Syllable]())((c, l) => (c.toString) :: l)
 }

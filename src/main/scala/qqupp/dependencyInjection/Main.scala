@@ -1,4 +1,4 @@
-package qqupp.dependency_injection
+package qqupp.dependencyInjection
 
 object MaybeSoftWord2020 extends App {
   import Config._

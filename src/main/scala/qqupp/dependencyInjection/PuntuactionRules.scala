@@ -1,4 +1,4 @@
-package qqupp.dependency_injection
+package qqupp.dependencyInjection
 
 trait PunctuationRules {
   def checkHyphenation(word1: Word, word2: Word): Boolean
@@ -9,7 +9,4 @@ case class DefaultPunctuationRules(lang: Lang, dictionary: WordDictionary)
 
   override def checkHyphenation(word1: Word, word2: Word): Boolean =
     if (dictionary.intoSyllables(word1 + word2).nonEmpty) true else false
-
 }
-
-
