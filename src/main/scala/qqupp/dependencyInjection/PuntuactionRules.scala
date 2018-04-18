@@ -1,6 +1,7 @@
 package qqupp.dependencyInjection
 
 trait PunctuationRules {
+  def dictionary: WordDictionary
   def checkHyphenation(word1: Word, word2: Word): Boolean
 }
 
