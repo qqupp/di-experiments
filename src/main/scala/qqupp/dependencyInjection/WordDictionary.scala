@@ -2,9 +2,11 @@ package qqupp.dependencyInjection
 
 trait WordDictionaryComponent { self =>
 
-  val wordDictionary: WordDictionary
+  type WordDictionary <: WordDictionaryInterface
 
-  trait WordDictionary {
+  def wordDictionary: WordDictionary
+
+  trait WordDictionaryInterface {
     def lang: Lang
     def hasWord(word: Word): Boolean
     def definition(word: Word): Option[Definition]
@@ -14,9 +16,11 @@ trait WordDictionaryComponent { self =>
 
 trait DefaultWordDictionaryComponent extends WordDictionaryComponent { self =>
 
+  type WordDictionary = DefaultWordDictionary
+
   case class DefaultWordDictionary(lang: Lang,
                                    private val dict: Map[Word, Definition])
-      extends WordDictionary {
+      extends WordDictionaryInterface {
 
     def hasWord(word: Word): Boolean = dict.contains(word)
 

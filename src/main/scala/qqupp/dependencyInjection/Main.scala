@@ -17,8 +17,10 @@ trait Config
     "Bar" -> "Bar bar, BAR!",
     "Baz" -> "Bazinga."
   )
+
   val wordDictionary =
     DefaultWordDictionary("English", NonsenseDictionary)
   val punctuationRules =
     DefaultPunctuationRules("English")
+  val wordProcessor = new WordProcessor
 }

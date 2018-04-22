@@ -2,9 +2,11 @@ package qqupp.dependencyInjection
 
 trait PunctuationRulesComponent { self: WordDictionaryComponent =>
 
-  val punctuationRules: PunctuationRules
+  type PunctuationRules <: PunctuationRulesUnterface
 
-  trait PunctuationRules {
+  def punctuationRules: PunctuationRules
+
+  trait PunctuationRulesUnterface {
     def checkHyphenation(word1: Word, word2: Word): Boolean
   }
 }
@@ -12,9 +14,11 @@ trait PunctuationRulesComponent { self: WordDictionaryComponent =>
 trait DefaultPunctuationRulesComponent extends PunctuationRulesComponent {
   self: WordDictionaryComponent =>
 
-  case class DefaultPunctuationRules(lang: Lang) extends PunctuationRules {
+  type PunctuationRules = DefaultPunctuationRules
 
-    override def checkHyphenation(word1: Word, word2: Word): Boolean =
+  case class DefaultPunctuationRules(lang: Lang) extends PunctuationRulesUnterface {
+
+    def checkHyphenation(word1: Word, word2: Word): Boolean =
       if (wordDictionary.intoSyllables(word1 + word2).nonEmpty) true else false
   }
 }

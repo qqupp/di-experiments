@@ -5,7 +5,7 @@ import scala.collection.mutable.ListBuffer
 trait WordProcessorComponent {
   self: WordDictionaryComponent with PunctuationRulesComponent =>
 
-  val wordProcessor: WordProcessor = new WordProcessor
+  def wordProcessor: WordProcessor
 
   class WordProcessor {
 
