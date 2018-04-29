@@ -30,7 +30,7 @@ object HelloReaderMonad101 {
 
   // an example almost like partial application
   def ping(hostname: Host) = Reader[Gateway, String] {
-    (g: Gateway) => s"connecting to $g and ping $hostname"
+    (gateway: Gateway) => s"connecting to $gateway and ping $hostname"
   }
 
   // you can construct your program
@@ -44,8 +44,6 @@ object HelloReaderMonad101 {
 
   myProgram.run("production bastion 10.0.0.2")
   // connecting to production bastion 10.0.0.2 and ping www.sky.com
-
-
 }
 
 object HelloReaderMonad102 {
@@ -61,13 +59,13 @@ object HelloReaderMonad102 {
   }
 
   def ping(hostname: Host) = Reader[Gateway, String] {
-    (g: Gateway) => s"connecting to $g and ping $hostname"
+    (gateway: Gateway) => s"connecting to $gateway and ping $hostname"
   }
 
-  def grantAccess(g: Gateway, pswd: String) = if (g.startsWith("testing")) true else false
+  def grantAccess(gateway: Gateway, pswd: String) = gateway.startsWith("testing")
 
   def checkSecurity(password: String) = Reader[Gateway, Boolean] {
-    (g: Gateway) => grantAccess(g, password)
+    (gateway: Gateway) => grantAccess(gateway, password)
   }
 
   // you can compose your program
@@ -80,12 +78,34 @@ object HelloReaderMonad102 {
   myProgram.run("testing gateway 127.0.0.1")
   // connecting to testing gateway 127.0.0.1 and ping www.sky.com
 
-
   myProgram.run("production bastion 10.0.0.2")
   // connecting to production bastion 10.0.0.2 and ping localhost
-
 }
 
+
+object HelloPartialApplication001 {
+
+  // an example with partial application
+  def ping(hostname: Host)(gateway: Gateway) = s"connecting to $gateway and ping $hostname"
+
+  def grantAccess(gateway: Gateway, pswd: String) = gateway.startsWith("testing")
+
+  def checkSecurity(password: String)(gateway: Gateway) = grantAccess(gateway, password)
+
+  // you can compose your program
+  val myProgram = (gateway: Gateway) => {
+    val allowed  = checkSecurity("password_1234")(gateway)
+    val ping_result = if (allowed) ping("www.sky.com")(gateway) else ping("localhost")(gateway)
+    ping_result
+  }
+
+
+  myProgram("testing gateway 127.0.0.1")
+  // connecting to testing gateway 127.0.0.1 and ping www.sky.com
+
+  myProgram("production bastion 10.0.0.2")
+  // connecting to production bastion 10.0.0.2 and ping www.sky.com
+}
 
 object HelloMonad103 {
 
@@ -94,15 +114,9 @@ object HelloMonad103 {
 
   def monadComposition[M[_] : Monad, A, B, C](f: A => M[B], g: B => M[C]): A => M[C] =
     (x: A) => f(x).flatMap(g)
-
 }
-
 
 object HelloTypes {
   type Gateway = String
   type Host = String
-
 }
-
-
-
