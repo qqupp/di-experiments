@@ -8,6 +8,20 @@ import cats.implicits._
   * Created on 29/04/18.
   */
 
+object HelloPartialApplication000 {
+
+  // an example with partial application
+  def ping(hostname: Host)(gateway: Gateway) = s"connecting to $gateway and ping $hostname"
+
+  val myProgram = ping("www.sky.com")(_)
+
+  myProgram("testing gateway 127.0.0.1")
+  // connecting to testing gateway 127.0.0.1 and ping www.sky.com
+
+  myProgram("production bastion 10.0.0.2")
+  // connecting to production bastion 10.0.0.2 and ping www.sky.com
+}
+
 object HelloReaderMonad101 {
 
   // the reader it's very similar to a container for
@@ -33,9 +47,6 @@ object HelloReaderMonad101 {
 
 
 }
-
-
-
 
 object HelloReaderMonad102 {
 
