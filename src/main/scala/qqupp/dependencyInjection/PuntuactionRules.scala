@@ -2,11 +2,11 @@ package qqupp.dependencyInjection
 
 trait PunctuationRulesComponent { self: WordDictionaryComponent =>
 
-  type PunctuationRules <: PunctuationRulesUnterface
+  type PunctuationRules <: PunctuationRulesInterface
 
   def punctuationRules: PunctuationRules
 
-  trait PunctuationRulesUnterface {
+  trait PunctuationRulesInterface {
     def checkHyphenation(word1: Word, word2: Word): Boolean
   }
 }
@@ -16,7 +16,7 @@ trait DefaultPunctuationRulesComponent extends PunctuationRulesComponent {
 
   type PunctuationRules = DefaultPunctuationRules
 
-  case class DefaultPunctuationRules(lang: Lang) extends PunctuationRulesUnterface {
+  case class DefaultPunctuationRules(lang: Lang) extends PunctuationRulesInterface {
 
     def checkHyphenation(word1: Word, word2: Word): Boolean =
       if (wordDictionary.intoSyllables(word1 + word2).nonEmpty) true else false
