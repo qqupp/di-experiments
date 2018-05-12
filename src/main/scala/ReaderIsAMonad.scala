@@ -44,15 +44,15 @@ object ReaderIsAMonad {
     compose(unit, h)                                          =?= h
     ((f: F, g: G) => (x: A) => flatMap (f(x))(g)) (unit, h)   =?= h
     ((x: A) => flatMap (unit(x)) (h))                                                   =?= h
-    // suAst unit
+    // subst unit
     ((x: A) => flatMap (((x1: A) => Reader[E,A](_ => x1))(x)) (h))                      =?= h
     ((x: A) => flatMap (Reader[E,A](_ => x)) (h))                                       =?= h
-    // suAst flatMap def
+    // subst flatMap def
     ((x: A) => ((r: R[A]) => (f: F) => Reader[E, A]((e: E ) => ( f ( r.run(e) ) ).run(e))) (Reader[E,A](_ => x)) (h))             =?= h
     ((x: A) => ((f: F) => Reader[E, A]((e: E ) => ( f ( (Reader[E,A](_ => x)).run(e) ) ).run(e))) (h))                            =?= h
     ((x: A) => Reader[E, A]((e: E ) => ( (h) ( (Reader[E,A](_ => x)).run(e) ) ).run(e)) )                                         =?= h
     ((x: A) => Reader[E, A]((e: E ) => ( (h) (x) ).run(e)))                                                                       =?= h
-    // suAst h definition
+    // subst h definition
     ((x: A) => Reader[E, A]((e: E ) => ( ((A: A) => Reader((e: E) => c)) (x) ).run(e)))                                           =?= h
     ((x: A) => Reader[E, A]((e: E ) => ( Reader((e: E) => c) ).run(e)))                                                           =?= h
     ((x: A) => Reader[E, A]((e: E ) => c))                                                                                        =?= h
@@ -68,15 +68,15 @@ object ReaderIsAMonad {
     ((f: G, g: F) => (x: A) => flatMap(f(x))(g)) (h, unit)     =?= h
     ((x: A) => flatMap((h)(x))(unit))                          =?= h
 
-    // suAst flatMap
+    // subst flatMap
     ((x: A) => ((r: R[A]) => (f: F) => Reader[E, A]((e: E )=> ( f ( r.run(e) ) ).run(e))) (h(x)) (unit))                        =?= h
     ((x: A) => ((f: F) => Reader[E, A]((e: E )=> ( f ( (h(x)).run(e) ) ).run(e)))  (unit))                                      =?= h
-    // suAst h
+    // subst h
     ((x: A) => ((f: F) => Reader[E, A]((e: E )=> ( f ( ( Reader[E, A]((e: E) => c)).run(e) ) ).run(e)))  (unit))                =?= h
     ((x: A) => ((f: F) => Reader[E, A]((e: E )=> ( f ( c ) ).run(e)))  (unit))                                                  =?= h
-    // suAst f
+    // subst f
     ((x: A) => (Reader[E, A]((e: E )=> ( unit ( c ) ).run(e))))                                                                 =?= h
-    // suAst unit
+    // subst unit
     ((x: A) => (Reader[E, A]((e: E )=> ( ((x: A) => Reader[E, A](_ => x)) ( c ) ).run(e))))                                     =?= h
     ((x: A) => (Reader[E, A]((e: E )=> (Reader[E, A](_ => c)).run(e))))                                                         =?= h
     ((x: A) => Reader[E, A]((e: E )=> c))                                                                                       =?= h
@@ -212,7 +212,7 @@ object Utils {
   object QED { val proof = "Quod Erat Demostrandum" }
   implicit class ProofEQUtil[V1,V2](val llhs: V1 => V2) extends  AnyVal {
     // are 2 functions the same functions?
-    def =?=(rhs: V1 => V2): Boolean = false // false for simplicity but comparing 2 functions is semidecidable we dont' have enough time to check :/
+    def =?=(rhs: V1 => V2): Boolean = false // false for simplicity, comparing 2 functions is semidecidable we dont' have enough time to check :/
     def ===(rhs: V1 => V2): V1 => V2 = rhs // equality correct by construction
   }
 }
