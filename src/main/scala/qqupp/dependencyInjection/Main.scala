@@ -12,14 +12,14 @@ trait Config
     with DefaultWordDictionaryComponent
     with DefaultPunctuationRulesComponent {
 
-  val NonsenseDictionary = Map(
+  val Definitions = Map(
     "Foo" -> "Just a foo?",
     "Bar" -> "Bar bar, BAR!",
     "Baz" -> "Bazinga."
   )
 
   val wordDictionary =
-    DefaultWordDictionary("English", NonsenseDictionary)
+    DefaultWordDictionary("English", Definitions)
   val punctuationRules =
     DefaultPunctuationRules("English")
   val wordProcessor = new WordProcessor
