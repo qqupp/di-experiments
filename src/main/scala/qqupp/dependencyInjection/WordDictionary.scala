@@ -21,7 +21,6 @@ class DefaultWordDictionary(val lang: Lang,
 
 object DefaultWordDictionary {
   def apply(lang: Lang,
-            definitions: Map[Word, Definition]
-           ): DefaultWordDictionary =
+            definitions: Map[Word, Definition]): DefaultWordDictionary =
     new DefaultWordDictionary(lang, definitions)
 }
