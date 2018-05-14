@@ -2,8 +2,8 @@ package qqupp.dependencyInjection
 
 import scala.collection.mutable.ListBuffer
 
-case class WordProcessor(dictionary: WordDictionary,
-                         punctuationRules: PunctuationRules) {
+class WordProcessor(dictionary: WordDictionary,
+                    punctuationRules: PunctuationRules) {
 
   private val words = ListBuffer[Word]()
 
@@ -20,4 +20,10 @@ case class WordProcessor(dictionary: WordDictionary,
 
   def otherUsefulMethod: Unit = ???
 
+}
+
+object WordProcessor {
+  def apply(dictionary: WordDictionary,
+            punctuationRules: PunctuationRules): WordProcessor =
+    new WordProcessor(dictionary, punctuationRules)
 }
